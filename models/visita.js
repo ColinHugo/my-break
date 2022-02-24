@@ -4,7 +4,7 @@ const visitaSchema = mongoose.Schema( {
 
     nombre: {
         type: String,
-        required: true,
+        required: [ true, 'El nombre es obligatorio.' ],
         trim: true
     },
 
