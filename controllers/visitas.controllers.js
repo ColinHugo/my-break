@@ -66,7 +66,7 @@ const putVisita = async ( req, res ) => {
         return res.status( 200 ).json( {
             value: 1,
             msg: 'La visita se ha actualizado correctamnete.'
-        } )
+        } );
         
     } catch ( error ) {
 
@@ -90,7 +90,7 @@ const deleteVisita = async ( req, res ) => {
         return res.status( 200 ).json( {
             value: 1,
             msg: 'La visita se ha eliminado correctamnete.'
-        } )
+        } );
         
     } catch ( error ) {
 

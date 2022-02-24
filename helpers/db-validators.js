@@ -1,4 +1,13 @@
-import { Visita } from '../models/index.js';
+import { Reservacion, Visita } from '../models/index.js';
+
+const existeReservacion = async ( id ) => {
+    
+    const reservacion = await Reservacion.findById( id );
+    
+    if ( !reservacion ) {
+        throw new Error( `No existe reservación con el id ${ id }` );
+    }
+}
 
 const existeVisita = async ( id ) => {
     
@@ -10,5 +19,6 @@ const existeVisita = async ( id ) => {
 }
 
 export {
+    existeReservacion,
     existeVisita
 }
