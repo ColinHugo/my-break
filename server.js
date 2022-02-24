@@ -5,6 +5,8 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import dbConnection from './database/config.js';
 
+import visitas from './routes/visitas.routes.js';
+
 class Server{
 
     constructor(){
@@ -15,13 +17,14 @@ class Server{
         this.port = process.env.PORT;
 
         this.paths = {
-
+            visitas: '/visitas'
         };
 
         this.conectarDB();
 
         this.middlewares();
 
+        this.routes();
     }
 
     async conectarDB(){
@@ -30,9 +33,12 @@ class Server{
 
     middlewares(){
         this.app.use( cors() );
-        this.app.use( express.json( { limit: '100mb' } ) );
+        this.app.use( express.json() );
         this.app.use( mongoSanitize() );
-        
+    }
+
+    routes(){
+        this.app.use( this.paths.visitas, visitas );
     }
 
     listen(){
@@ -40,7 +46,6 @@ class Server{
             console.log( 'Servidor corriendo en el puerto:', this.port );
         } );
     }
-
 }
 
 export default Server;
