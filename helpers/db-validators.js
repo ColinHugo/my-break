@@ -1,5 +1,14 @@
 import * as models from '../models/index.js';
 
+const existeAtraccion = async ( id ) => {
+    
+    const atraccion = await models.Atraccion.findById( id );
+    
+    if ( !atraccion ) {
+        throw new Error( `No existe atracción con el id ${ id }` );
+    }
+}
+
 const existeEmail = async ( correo ) => {
     
     const email = await models.Usuario.findOne( { correo } );
@@ -37,6 +46,7 @@ const existeVisita = async ( id ) => {
 }
 
 export {
+    existeAtraccion,
     existeEmail,
     existeReservacion,
     existeUsuario,
