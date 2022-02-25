@@ -5,7 +5,9 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import dbConnection from './database/config.js';
 
+import auth from './routes/auth.routes.js'
 import reservacion from './routes/reservacion.routes.js';
+import usuarios from './routes/usuarios.routes.js';
 import visitas from './routes/visitas.routes.js';
 
 class Server{
@@ -18,7 +20,9 @@ class Server{
         this.port = process.env.PORT;
 
         this.paths = {
+            auth: '/auth',
             reservacion: '/reservacion',
+            usuarios: '/usuarios',
             visitas: '/visitas'
         };
 
@@ -40,7 +44,9 @@ class Server{
     }
 
     routes(){
+        this.app.use( this.paths.auth, auth );
         this.app.use( this.paths.reservacion, reservacion );
+        this.app.use( this.paths.usuarios, usuarios );
         this.app.use( this.paths.visitas, visitas );
     }
 

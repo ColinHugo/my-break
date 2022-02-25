@@ -1,4 +1,4 @@
-import { Reservacion, Visita } from '../models/index.js';
+import { Reservacion } from '../models/index.js';
 
 const getReservaciones = async ( req, res ) => {
 

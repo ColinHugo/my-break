@@ -2,11 +2,10 @@ import { Router } from 'express';
 
 import { check } from 'express-validator';
 
-import validarCampos from '../middlewares/validar-campos.js';
-
+import { validarCampos } from '../middlewares/index.js';
 import { dbValidators } from '../helpers/index.js';
 
-import * as reservacion from '../controllers/reservacion.controllers.js';
+import * as reservacion from '../controllers/reservacion.controller.js';
 
 const router = Router();
 
