@@ -10,13 +10,13 @@ const usuarioSchema = mongoose.Schema( {
 
     nombre: {
         type: String,
-        required: true,
+        required: [ true, 'El nombre del usuario es obligatorio.' ],
         trim: true
     },
 
     apellidos: {
         type: String,
-        required: true,
+        required: [ true, 'Los apellidos del usuario son obligatorios.' ],
         trim: true
     },
 
