@@ -5,7 +5,7 @@ import { check } from 'express-validator';
 import { validarCampos } from '../middlewares/index.js';
 import { dbValidators } from '../helpers/index.js';
 
-import * as reservacion from '../controllers/reservacion.controller.js';
+import * as reservacion from '../controllers/reservaciones.controller.js';
 
 const router = Router();
 
