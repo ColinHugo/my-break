@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { validarCampos } from '../middlewares/index.js';
 import { dbValidators } from '../helpers/index.js';
+import { validarCampos } from '../middlewares/index.js';
 
 import * as usuario from '../controllers/usuarios.controller.js';
 
