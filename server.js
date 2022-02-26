@@ -6,7 +6,8 @@ import mongoSanitize from 'express-mongo-sanitize';
 import dbConnection from './database/config.js';
 
 import atracciones from './routes/atracciones.routes.js';
-import auth from './routes/auth.routes.js'
+import auth from './routes/auth.routes.js';
+import reportes from './routes/reportes.routes.js';
 import reservaciones from './routes/reservaciones.routes.js';
 import usuarios from './routes/usuarios.routes.js';
 import visitas from './routes/visitas.routes.js';
@@ -23,6 +24,7 @@ class Server{
         this.paths = {
             atracciones: '/atracciones',
             auth: '/auth',
+            reportes: '/reportes',
             reservaciones: '/reservaciones',
             usuarios: '/usuarios',
             visitas: '/visitas'
@@ -48,6 +50,7 @@ class Server{
     routes(){
         this.app.use( this.paths.atracciones, atracciones );
         this.app.use( this.paths.auth, auth );
+        this.app.use( this.paths.reportes, reportes );
         this.app.use( this.paths.reservaciones, reservaciones );
         this.app.use( this.paths.usuarios, usuarios );
         this.app.use( this.paths.visitas, visitas );
