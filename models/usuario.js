@@ -42,7 +42,12 @@ const usuarioSchema = mongoose.Schema( {
     perfil: {
         type: Number,
         default: 3
-    }
+    },
+
+    foto: {
+        type: String,
+        trim: true
+    },
 
 }, {
     versionKey: false
