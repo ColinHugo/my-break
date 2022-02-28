@@ -1,10 +1,11 @@
-import { Reservacion } from '../models/index.js';
+import { Reservacion, Visita } from '../models/index.js';
 
 const getReservaciones = async ( req, res ) => {
 
     try {
 
-        const reservaciones = await Reservacion.find();
+        const reservaciones = await Reservacion.find()
+            .populate( 'visita' );
 
         if ( reservaciones.length === 0 ) {
 
@@ -64,7 +65,12 @@ const getReservacion = async ( req, res ) => {
 
 const postReservacion = async ( req, res ) => {
 
+    const { idVisita } = req.params;
+
     try {
+
+        const visita = await Visita.findById( idVisita );
+        req.body.visita = visita;
 
         const reservacion = new Reservacion( req.body );
 

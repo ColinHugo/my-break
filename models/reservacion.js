@@ -14,6 +14,19 @@ const reservacionSchema = mongoose.Schema( {
         trim: true
     },
 
+    telefono: {
+        type: String,
+        default: null,
+        trim: true
+    },
+
+    correo: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
+
     diasAReservar: {
         type: Number,
         required: [ true, 'Los días a reservar son obligatorios.' ],
@@ -28,6 +41,11 @@ const reservacionSchema = mongoose.Schema( {
     estado: {
         type: Boolean,
         default: false
+    },
+
+    visita: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Visita'
     }
 
 }, {
