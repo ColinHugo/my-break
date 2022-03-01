@@ -23,10 +23,11 @@ const visitaSchema = mongoose.Schema( {
         trim: true
     },
 
-    foto: {
+    foto: [ {
         type: String,
-        trim: true
-    },
+        trim: true,
+        maxItems: 7
+    } ],
 
 }, {
     versionKey: false
