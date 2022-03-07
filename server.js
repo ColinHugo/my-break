@@ -8,6 +8,7 @@ import dbConnection from './database/config.js';
 import atencionCliente from './routes/atencion-cliente.routes.js';
 import atracciones from './routes/atracciones.routes.js';
 import auth from './routes/auth.routes.js';
+import comidas from './routes/comidas.routes.js';
 import reportes from './routes/reportes.routes.js';
 import reservaciones from './routes/reservaciones.routes.js';
 import usuarios from './routes/usuarios.routes.js';
@@ -26,6 +27,7 @@ class Server{
             atencionCliente: '/atencion-cliente',
             atracciones: '/atracciones',
             auth: '/auth',
+            comidas: '/comidas',
             reportes: '/reportes',
             reservaciones: '/reservaciones',
             usuarios: '/usuarios',
@@ -53,6 +55,7 @@ class Server{
         this.app.use( this.paths.atencionCliente, atencionCliente );
         this.app.use( this.paths.atracciones, atracciones );
         this.app.use( this.paths.auth, auth );
+        this.app.use( this.paths.comidas, comidas );
         this.app.use( this.paths.reportes, reportes );
         this.app.use( this.paths.reservaciones, reservaciones );
         this.app.use( this.paths.usuarios, usuarios );

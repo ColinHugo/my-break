@@ -9,6 +9,15 @@ const existeAtraccion = async ( id ) => {
     }
 }
 
+const existeComida = async ( id ) => {
+    
+    const comida = await models.Comida.findById( id );
+    
+    if ( !comida ) {
+        throw new Error( `No existe comida con el id ${ id }` );
+    }
+}
+
 const existeEmail = async ( correo ) => {
     
     const email = await models.Usuario.findOne( { correo } );
@@ -48,6 +57,7 @@ const existeVisita = async ( id ) => {
 export {
     existeAtraccion,
     existeEmail,
+    existeComida,
     existeReservacion,
     existeUsuario,
     existeVisita
