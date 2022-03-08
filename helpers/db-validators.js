@@ -27,6 +27,15 @@ const existeEmail = async ( correo ) => {
     }
 }
 
+const existeEmergencia = async ( id ) => {
+    
+    const emergencia = await models.Emergencia.findById( id );
+    
+    if ( !emergencia ) {
+        throw new Error( `No existe contacto de emergencia con el id ${ id }` );
+    }
+}
+
 const existeReservacion = async ( id ) => {
     
     const reservacion = await models.Reservacion.findById( id );
@@ -56,8 +65,9 @@ const existeVisita = async ( id ) => {
 
 export {
     existeAtraccion,
-    existeEmail,
     existeComida,
+    existeEmail,
+    existeEmergencia,
     existeReservacion,
     existeUsuario,
     existeVisita

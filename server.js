@@ -10,6 +10,7 @@ import atracciones from './routes/atracciones.routes.js';
 import auth from './routes/auth.routes.js';
 import comentarios from './routes/comentarios.routes.js';
 import comidas from './routes/comidas.routes.js';
+import emergencias from './routes/emergencias.routes.js';
 import reportes from './routes/reportes.routes.js';
 import reservaciones from './routes/reservaciones.routes.js';
 import usuarios from './routes/usuarios.routes.js';
@@ -30,6 +31,7 @@ class Server{
             auth: '/auth',
             comentarios: '/comentarios',
             comidas: '/comidas',
+            emergencias: '/emergencias',
             reportes: '/reportes',
             reservaciones: '/reservaciones',
             usuarios: '/usuarios',
@@ -59,6 +61,7 @@ class Server{
         this.app.use( this.paths.auth, auth );
         this.app.use( this.paths.comidas, comidas );
         this.app.use( this.paths.comentarios, comentarios );
+        this.app.use( this.paths.emergencias, emergencias );
         this.app.use( this.paths.reportes, reportes );
         this.app.use( this.paths.reservaciones, reservaciones );
         this.app.use( this.paths.usuarios, usuarios );
