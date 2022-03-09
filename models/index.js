@@ -3,6 +3,7 @@ import Atraccion from './atraccion.js';
 import Comentario from './comentario.js';
 import Comida from './comida.js';
 import Emergencia from './emergencia.js';
+import Lugar from './lugar.js';
 import Reporte from './reporte.js';
 import Reservacion from './reservacion.js';
 import Usuario from './usuario.js';
@@ -14,6 +15,7 @@ export {
     Comentario,
     Comida,
     Emergencia,
+    Lugar,
     Reporte,
     Reservacion,
     Usuario,
