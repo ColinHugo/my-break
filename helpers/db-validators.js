@@ -45,6 +45,15 @@ const existeLugar = async ( id ) => {
     }
 }
 
+const existeMenu = async ( id ) => {
+    
+    const menu = await models.Menu.findById( id );
+    
+    if ( !menu ) {
+        throw new Error( `No existe menú con el id ${ id }` );
+    }
+}
+
 const existeReservacion = async ( id ) => {
     
     const reservacion = await models.Reservacion.findById( id );
@@ -78,6 +87,7 @@ export {
     existeEmail,
     existeEmergencia,
     existeLugar,
+    existeMenu,
     existeReservacion,
     existeUsuario,
     existeVisita

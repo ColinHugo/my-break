@@ -43,5 +43,4 @@ lugarSchema.methods.toJSON = function(){
     return lugar;
 }
 
-
 export default mongoose.model( 'Lugar', lugarSchema );
