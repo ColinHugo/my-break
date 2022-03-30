@@ -1,7 +1,10 @@
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoSanitize from 'express-mongo-sanitize';
+import fileUpload from 'express-fileupload';
 
 import dbConnection from './database/config.js';
 
@@ -13,10 +16,10 @@ import comidas from './routes/comidas.routes.js';
 import emergencias from './routes/emergencias.routes.js';
 import lugares from './routes/lugares.routes.js';
 import menus from './routes/menus.routes.js';
+import promociones from './routes/promociones.routes.js';
 import reportes from './routes/reportes.routes.js';
 import reservaciones from './routes/reservaciones.routes.js';
 import usuarios from './routes/usuarios.routes.js';
-import visitas from './routes/visitas.routes.js';
 
 class Server{
 
@@ -34,12 +37,13 @@ class Server{
             comentarios: '/comentarios',
             comidas: '/comidas',
             emergencias: '/emergencias',
+            promociones: '/promociones',
             lugares: '/lugares',
             menus: '/menus',
+            promociones: '/promociones',
             reportes: '/reportes',
             reservaciones: '/reservaciones',
             usuarios: '/usuarios',
-            visitas: '/visitas'
         };
 
         this.conectarDB();
@@ -55,8 +59,9 @@ class Server{
 
     middlewares(){
         this.app.use( cors() );
-        this.app.use( express.json() );
+        this.app.use( express.json( { limit: '100mb' } ) );
         this.app.use( mongoSanitize() );
+        this.app.use( express.static( __dirname + './uploads' ) );
     }
 
     routes(){
@@ -68,10 +73,10 @@ class Server{
         this.app.use( this.paths.emergencias, emergencias );
         this.app.use( this.paths.lugares, lugares );
         this.app.use( this.paths.menus, menus );
+        this.app.use( this.paths.promociones, promociones );
         this.app.use( this.paths.reportes, reportes );
         this.app.use( this.paths.reservaciones, reservaciones );
         this.app.use( this.paths.usuarios, usuarios );
-        this.app.use( this.paths.visitas, visitas );
     }
 
     listen(){

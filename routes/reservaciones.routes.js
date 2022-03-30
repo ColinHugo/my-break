@@ -16,12 +16,12 @@ router.get( '/:idReservacion', [
     validarCampos
 ], reservacion.getReservacion );
 
-router.post( '/:idVisita', [
+router.post( '/:idLugar', [
     check( 'nombre', 'El nombre es obligatorio.' ).trim().notEmpty().escape(),
     check( 'apellidos', 'Los apellidos son obligatorios.' ).trim().notEmpty().escape(),
     check( 'diasAReservar', 'Ingrese una cantidad válida para días a reservar.' ).trim().isNumeric().toInt(),
     check( 'numeroPersonas', 'Ingrese una cantidad válida para el número de personas.' ).trim().isNumeric().toInt(),
-    check( 'idVisita' ).custom( dbValidators.existeVisita ),
+    check( 'idLugar' ).custom( dbValidators.existeLugar ),
     validarCampos
 ], reservacion.postReservacion );
 

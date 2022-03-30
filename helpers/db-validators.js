@@ -36,12 +36,12 @@ const existeEmergencia = async ( id ) => {
     }
 }
 
-const existeLugar = async ( id ) => {
+const existePromocion = async ( id ) => {
     
-    const lugar = await models.Lugar.findById( id );
+    const lugar = await models.Promocion.findById( id );
     
     if ( !lugar ) {
-        throw new Error( `No existe lugar con el id ${ id }` );
+        throw new Error( `No existe promoción con el id ${ id }` );
     }
 }
 
@@ -72,12 +72,12 @@ const existeUsuario = async ( id ) => {
     }
 }
 
-const existeVisita = async ( id ) => {
+const existeLugar = async ( id ) => {
     
-    const visita = await models.Visita.findById( id );
+    const visita = await models.Lugar.findById( id );
     
     if ( !visita ) {
-        throw new Error( `No existe visita con el id ${ id }` );
+        throw new Error( `No existe lugar con el id ${ id }` );
     }
 }
 
@@ -88,7 +88,7 @@ export {
     existeEmergencia,
     existeLugar,
     existeMenu,
+    existePromocion,
     existeReservacion,
     existeUsuario,
-    existeVisita
 }

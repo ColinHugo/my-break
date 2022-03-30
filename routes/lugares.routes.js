@@ -10,30 +10,26 @@ const router = Router();
 
 router.get( '/', lugares.getLugares );
 
-router.post( '/', [    
-    check( 'tipo', 'El tipo del lugar es obligatorio.' ).escape().trim().notEmpty(),
-    check( 'descripcion', 'La descripcion del lugar es obligatoria.' ).escape().trim().notEmpty(),
-    check( 'precio', 'El precio del lugar es obligatorio.' ).escape().trim().notEmpty().isNumeric(),
-    check( 'precio', 'El precio del lugar debe ser una cantidad válida.' ).isNumeric(),
-    check( 'ubicacion', 'La ubicacion del lugar es obligatoria.' ).escape().trim().notEmpty(),
-    check( 'contacto', 'El contacto del lugar es obligatorio.' ).escape().trim().notEmpty(),
+router.post( '/', [
+    check( 'nombre', 'El nombre es obligatorio.' ).trim().notEmpty().escape(),
+    check( 'ubicacion' ).trim().notEmpty(),
+    check( 'descripcion' ).trim().escape(),
+    check( 'precioPersona', 'Ingrese una cantidad válida.' ).trim().escape().isNumeric(),
     validarCampos
 ], lugares.postLugar );
 
 router.put( '/:idLugar', [
     check( 'idLugar', 'No es un id válido' ).isMongoId(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
-    check( 'tipo', 'El tipo del lugar es obligatorio.' ).escape().trim().notEmpty(),
-    check( 'descripcion', 'La descripcion del lugar es obligatoria.' ).escape().trim().notEmpty(),
-    check( 'precio', 'El precio del lugar es obligatorio.' ).escape().trim().notEmpty().isNumeric(),
-    check( 'precio', 'El precio del lugar debe ser una cantidad válida.' ).isNumeric(),
-    check( 'ubicacion', 'La ubicacion del lugar es obligatoria.' ).escape().trim().notEmpty(),
-    check( 'contacto', 'El contacto del lugar es obligatorio.' ).escape().trim().notEmpty(),
+    check( 'nombre', 'El nombre es obligatorio.' ).notEmpty().trim().escape(),
+    check( 'ubicacion' ).trim().escape(),
+    check( 'descripcion' ).trim().escape(),
+    check( 'precioPersona', 'Ingrese una cantidad válida.' ).trim().escape().isNumeric(),
     validarCampos
 ], lugares.putLugar );
 
 router.delete( '/:idLugar', [
-    check( 'idLugar', 'No es un id válido.' ).isMongoId(),
+    check( 'idLugar', 'No es un id válido' ).isMongoId(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
     validarCampos
 ], lugares.deleteLugar );

@@ -1,4 +1,4 @@
-import { Reservacion, Visita } from '../models/index.js';
+import { Reservacion, Lugar } from '../models/index.js';
 
 const getReservaciones = async ( req, res ) => {
 
@@ -65,12 +65,12 @@ const getReservacion = async ( req, res ) => {
 
 const postReservacion = async ( req, res ) => {
 
-    const { idVisita } = req.params;
+    const { idLugar } = req.params;
 
     try {
 
-        const visita = await Visita.findById( idVisita );
-        req.body.visita = visita;
+        const lugar = await Lugar.findById( idLugar );
+        req.body.lugar = lugar;
 
         const reservacion = new Reservacion( req.body );
 
