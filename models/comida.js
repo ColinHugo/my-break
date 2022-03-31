@@ -18,6 +18,11 @@ const comidaSchema = mongoose.Schema( {
         type: Number,
         trim: true,
         required: [ true, 'El precio de la comida es obligatorio.' ]
+    },
+
+    foto: {
+        type: String,
+        trim: true
     }
 }, {
     versionKey: false
