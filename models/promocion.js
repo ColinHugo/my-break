@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const promocionSchema = mongoose.Schema( {
 
-    tipo: {
+    nombre: {
         type: String,        
         trim: true
     },
@@ -17,20 +17,11 @@ const promocionSchema = mongoose.Schema( {
         trim: true
     },
 
-    ubicacion: {
+    foto: [ {
         type: String,
-        trim: true
-    },
-
-    contacto: {
-        type: String,
-        trim: true
-    },
-
-    foto: {
-        type: String,
-        trim: true
-    },
+        trim: true,
+        maxItems: 3
+    } ],
 
 }, {
     versionKey: false
