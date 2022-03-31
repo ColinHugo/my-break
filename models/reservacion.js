@@ -38,6 +38,18 @@ const reservacionSchema = mongoose.Schema( {
         trim: true
     },
 
+    fechaLlegada: {
+        type: Date,
+        trim: true,
+        required: [ true, 'La fecha de llegada es obligatoria.' ],
+    },
+
+    fechaSalida: {
+        type: Date,
+        trim: true,
+        required: [ true, 'La fecha de salida es obligatoria.' ],
+    },
+
     estado: {
         type: Boolean,
         default: false

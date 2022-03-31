@@ -21,6 +21,8 @@ router.post( '/:idLugar', [
     check( 'apellidos', 'Los apellidos son obligatorios.' ).trim().notEmpty().escape(),
     check( 'diasAReservar', 'Ingrese una cantidad válida para días a reservar.' ).trim().isNumeric().toInt(),
     check( 'numeroPersonas', 'Ingrese una cantidad válida para el número de personas.' ).trim().isNumeric().toInt(),
+    check( 'fechaLlegada', 'La fecha de llegada es obligatoria.' ).trim().notEmpty().escape(),
+    check( 'fechaSalida', 'La fecha de salida es obligatoria.' ).trim().notEmpty().escape(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
     validarCampos
 ], reservacion.postReservacion );
