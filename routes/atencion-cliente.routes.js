@@ -22,6 +22,7 @@ router.post( '/:idReceptor', [
 ], mensajes.postMensajes );
 
 router.delete( '/:idMensaje', [
+    validarJWT,
     check( 'idMensaje', 'No es un id válido.' ).isMongoId(),
     validarCampos
 ], mensajes.deleteMensajes );

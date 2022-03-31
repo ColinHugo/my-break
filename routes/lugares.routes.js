@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 
 import { dbValidators } from '../helpers/index.js';
-import { validarCampos } from '../middlewares/index.js';
+import { validarCampos, validarJWT } from '../middlewares/index.js';
 
 import * as lugares from '../controllers/lugares.controller.js';
 
@@ -11,6 +11,7 @@ const router = Router();
 router.get( '/', lugares.getLugares );
 
 router.post( '/', [
+    validarJWT,
     check( 'nombre', 'El nombre es obligatorio.' ).trim().notEmpty().escape(),
     check( 'ubicacion' ).trim().notEmpty(),
     check( 'descripcion' ).trim().escape(),
@@ -19,6 +20,7 @@ router.post( '/', [
 ], lugares.postLugar );
 
 router.put( '/:idLugar', [
+    validarJWT,
     check( 'idLugar', 'No es un id válido' ).isMongoId(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
     check( 'nombre', 'El nombre es obligatorio.' ).notEmpty().trim().escape(),
@@ -29,6 +31,7 @@ router.put( '/:idLugar', [
 ], lugares.putLugar );
 
 router.delete( '/:idLugar', [
+    validarJWT,
     check( 'idLugar', 'No es un id válido' ).isMongoId(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
     validarCampos
