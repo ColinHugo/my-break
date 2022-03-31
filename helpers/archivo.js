@@ -1,9 +1,9 @@
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
 import path from 'path';
 import fs from 'fs';
 
 import { v4 as uuidv4 } from 'uuid';
-
-const { pathname: __dirname } = new URL( '.', import.meta.url );
 
 const subirFoto = ( dataURI, extensionesValidas = [ 'png', 'jpg', 'jpeg', 'webp' ], carpeta = '' ) => {
 

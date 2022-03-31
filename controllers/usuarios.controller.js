@@ -1,12 +1,21 @@
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
+import fs from 'fs';
+import path from 'path';
+
 import { Usuario } from '../models/index.js';
+
+import { archivo, generarUrlFotos } from '../helpers/index.js';
 
 const getUsuario = async ( req, res ) => {
 
-    const { id } = req.params;
+    const { idUsuario } = req.params;
 
     try {
 
-        const usuario = await Usuario.findById( id );
+        let usuario = await Usuario.findById( idUsuario );
+
+        usuario = generarUrlFotos( req, 'usuarios', usuario );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -15,11 +24,11 @@ const getUsuario = async ( req, res ) => {
         
     } catch ( error ) {
 
-        console.error( `Error al obtener el usuario con id ${ id }` );
+        console.error( `Error al obtener el usuario con id ${ idUsuario }` );
 
         return res.status( 500 ).json( {
             value: 0,
-            msg: `Error al obtener el usuario con id ${ id }`
+            msg: `Error al obtener el usuario con id ${ idUsuario }`
         } );
     }
 };
@@ -30,7 +39,7 @@ const getUsuarios = async ( req, res ) => {
 
     try {
 
-        const usuarios = await Usuario.find( query );
+        let usuarios = await Usuario.find( query );
 
         if ( usuarios.length === 0 ) {
 
@@ -39,6 +48,8 @@ const getUsuarios = async ( req, res ) => {
                 msg: 'No hay usuarios registrados.'
             } );
         }
+
+        usuarios = generarUrlFotos( req, 'usuarios', usuarios );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -59,6 +70,10 @@ const getUsuarios = async ( req, res ) => {
 const postUsuario = async ( req, res ) => {
 
     try {
+
+        if ( req.body.foto ) {
+            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'usuarios' );
+        }
 
         const usuario = new Usuario( req.body );
 
@@ -83,20 +98,31 @@ const postUsuario = async ( req, res ) => {
 // TODO: realizar endpoint para restablecer password
 const putUsuario = async ( req, res ) => {
 
-    const { id } = req.params;
-    const { password, ...datos } = req.body;
+    const { idUsuario } = req.params;
+    const { password, foto, ...datos } = req.body;
 
     try {
 
+        const usuario = await Usuario.findById( idUsuario );
+
         if ( password ) {
-
-            const usuario = await Usuario.findOne( { id } );
-            usuario.password = password;
-
-            await usuario.save();
+            datos.password = await Usuario.encryptPassword( password );
         }
 
-        await Usuario.findByIdAndUpdate( id, datos );
+        if ( foto ) {
+            if ( usuario.foto ) {
+
+                const pathImagen = path.join( __dirname, '../uploads/usuarios/', usuario.foto );
+
+                if ( fs.existsSync( pathImagen ) ) {
+                    fs.unlinkSync( pathImagen );
+                }
+            }
+
+            datos.foto = await archivo.subirFoto( req.body.foto, undefined, 'usuarios' );
+        }
+
+        await usuario.updateOne( datos );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -116,11 +142,11 @@ const putUsuario = async ( req, res ) => {
 
 const deleteUsuario = async ( req, res ) => {
 
-    const { id } = req.params;
+    const { idUsuario } = req.params;
 
     try {
 
-        await Usuario.findByIdAndUpdate( id, { estado: false } );
+        await Usuario.findByIdAndUpdate( idUsuario, { estado: false } );
 
         return res.status( 200 ).json( {
             value: 1,

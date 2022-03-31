@@ -10,9 +10,9 @@ const router = Router();
 
 router.get( '/', usuario.getUsuarios );
 
-router.get( '/:id', [
-    check( 'id', 'No es un id válido.' ).isMongoId(),
-    check( 'id' ).custom( dbValidators.existeUsuario ),
+router.get( '/:idUsuario', [
+    check( 'idUsuario', 'No es un id válido.' ).isMongoId(),
+    check( 'idUsuario' ).custom( dbValidators.existeUsuario ),
     validarCampos
 ], usuario.getUsuario );
 
@@ -28,15 +28,15 @@ router.post( '/', [
     validarCampos
 ], usuario.postUsuario );
 
-router.put( '/:id', [
-    check( 'id', 'No es un id válido.' ).isMongoId(),
-    check( 'id' ).custom( dbValidators.existeUsuario ),
+router.put( '/:idUsuario', [
+    check( 'idUsuario', 'No es un id válido.' ).isMongoId(),
+    check( 'idUsuario' ).custom( dbValidators.existeUsuario ),
     validarCampos
 ], usuario.putUsuario );
 
-router.delete( '/:id', [
-    check( 'id', 'No es un id válido' ).isMongoId(),
-    check( 'id' ).custom( dbValidators.existeUsuario ),
+router.delete( '/:idUsuario', [
+    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
+    check( 'idUsuario' ).custom( dbValidators.existeUsuario ),
     validarCampos
 ], usuario.deleteUsuario );
 

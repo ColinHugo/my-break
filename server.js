@@ -4,7 +4,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoSanitize from 'express-mongo-sanitize';
-import fileUpload from 'express-fileupload';
 
 import dbConnection from './database/config.js';
 

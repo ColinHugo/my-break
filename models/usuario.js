@@ -63,6 +63,13 @@ usuarioSchema.pre( 'save', async function ( next ){
     this.password = await bcrypt.hash( this.password, salt );
 } );
 
+usuarioSchema.statics.encryptPassword = async ( password ) => {
+    
+    const salt = await bcrypt.genSalt();
+
+    return bcrypt.hashSync( password, salt );
+}
+
 usuarioSchema.methods.comprobarPassword = async function ( password ) {
     return await bcrypt.compare( password, this.password );
 }
