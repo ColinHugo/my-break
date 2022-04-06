@@ -5,6 +5,7 @@ import Comida from './comida.js';
 import Emergencia from './emergencia.js';
 import Promocion from './promocion.js';
 import Menu from './menu.js';
+import Pedido from './pedido.js';
 import Reporte from './reporte.js';
 import Reservacion from './reservacion.js';
 import Usuario from './usuario.js';
@@ -18,6 +19,7 @@ export {
     Emergencia,
     Lugar,
     Menu,
+    Pedido,
     Promocion,
     Reporte,
     Reservacion,
