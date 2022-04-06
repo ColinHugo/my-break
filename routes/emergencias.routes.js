@@ -26,4 +26,11 @@ router.put( '/:idEmergencia', [
     validarCampos
 ], emergencias.putEmergencia );
 
+router.delete( '/:idEmergencia', [
+    validarJWT,
+    check( 'idEmergencia', 'No es un id válido' ).isMongoId(),
+    check( 'idEmergencia' ).custom( dbValidators.existeEmergencia ),
+    validarCampos
+], emergencias.deleteEmergencia );
+
 export default router;

@@ -64,7 +64,7 @@ const putEmergencia = async ( req, res ) => {
 
         return res.status( 200 ).json( {
             value: 1,
-            msg: 'El contacto de emergencia se ha actualizado correctamnete.'
+            msg: 'El contacto de emergencia se ha actualizado correctamente.'
         } );
         
     } catch ( error ) {
@@ -78,8 +78,33 @@ const putEmergencia = async ( req, res ) => {
     }
 };
 
+const deleteEmergencia = async ( req, res ) => {
+
+    const { idEmergencia } = req.params;
+
+    try {
+
+        await Emergencia.findByIdAndDelete( idEmergencia );
+
+        return res.status( 200 ).json( {
+            value: 1,
+            msg: 'El contacto de emergencia se ha eliminado correctamente.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al eliminar el contacto de emergencia.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al eliminar el contacto de emergencia.'
+        } );
+    }
+};
+
 export {
     getEmergencias,
     postEmergencia,
-    putEmergencia
+    putEmergencia,
+    deleteEmergencia
 }
