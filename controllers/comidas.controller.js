@@ -1,10 +1,14 @@
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
 import { Comida } from '../models/index.js';
+
+import { generarUrlFotos, archivo } from '../helpers/index.js';
 
 const getComidas = async ( req, res ) => {
 
     try {
 
-        const comidas = await Comida.find();
+        let comidas = await Comida.find();
 
         if ( comidas.length === 0 ) {
 
@@ -13,6 +17,8 @@ const getComidas = async ( req, res ) => {
                 msg: 'No hay comidas registradas.'
             } );
         }
+
+        comidas = generarUrlFotos( req, 'comidas', comidas );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -82,10 +88,26 @@ const postComida = async ( req, res ) => {
 const putComida = async ( req, res ) => {
 
     const { idComida } = req.params;
+    const { foto, ...datos } = req.body;
 
     try {
 
-        await Comida.findByIdAndUpdate( idComida, req.body );
+        const comida = await Comida.findById( idComida );
+
+        if ( foto ) {
+            if ( comida.foto ) {
+    
+                const pathImagen = path.join( __dirname, '../uploads/comidas/', comida.foto );
+
+                if ( fs.existsSync( pathImagen ) ) {
+                    fs.unlinkSync( pathImagen );
+                }
+            }
+
+            datos.foto = await archivo.subirFoto( foto, undefined, 'comidas' );
+        }
+
+        await comida.updateOne( datos );
 
         return res.status( 200 ).json( {
             value: 1,
