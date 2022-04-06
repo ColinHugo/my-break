@@ -36,6 +36,15 @@ const existeEmergencia = async ( id ) => {
     }
 }
 
+const existePedido = async ( id ) => {
+    
+    const pedido = await models.Pedido.findById( id );
+    
+    if ( !pedido ) {
+        throw new Error( `No existe pedido con el id ${ id }` );
+    }
+}
+
 const existePromocion = async ( id ) => {
     
     const lugar = await models.Promocion.findById( id );
@@ -88,6 +97,7 @@ export {
     existeEmergencia,
     existeLugar,
     existeMenu,
+    existePedido,
     existePromocion,
     existeReservacion,
     existeUsuario,
