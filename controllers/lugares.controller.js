@@ -1,5 +1,8 @@
 const { pathname: __dirname } = new URL( '.', import.meta.url );
 
+import path from 'path';
+import fs from 'fs';
+
 import { Lugar } from '../models/index.js';
 
 import { generarUrlFotos, archivo } from '../helpers/index.js';
@@ -109,7 +112,22 @@ const deleteLugar = async ( req, res ) => {
 
     try {
 
-        await Lugar.findByIdAndDelete( idLugar );
+        const lugar = await Lugar.findById( idLugar );
+
+        if ( lugar.foto ) {
+            const fotos = lugar.foto;
+            
+            for ( const foto of fotos ) {
+
+                const pathImagen = path.join( __dirname, '../uploads/', 'lugares', foto );
+
+                if ( fs.existsSync( pathImagen ) ){
+                    fs.unlinkSync( pathImagen );
+                }
+            }
+        }
+
+        await lugar.deleteOne();
 
         return res.status( 200 ).json( {
             value: 1,
