@@ -1,10 +1,17 @@
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
+import path from 'path';
+import fs from 'fs';
+
 import { Promocion } from '../models/index.js';
+
+import { archivo, generarUrlFotos } from '../helpers/index.js';
 
 const getPromociones = async ( req, res ) => {
 
     try {
 
-        const promociones = await Promocion.find();
+        let promociones = await Promocion.find();
 
         if ( promociones.length === 0 ) {
 
@@ -13,6 +20,8 @@ const getPromociones = async ( req, res ) => {
                 msg: 'No hay promociones registradas.'
             } );
         }
+
+        promociones = generarUrlFotos( req, 'promociones', promociones );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -33,6 +42,10 @@ const getPromociones = async ( req, res ) => {
 const postPromocion = async ( req, res ) => {
 
     try {
+
+        if ( req.body.foto ) {
+            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'promociones' );
+        }
 
         const promocion = new Promocion( req.body );
 
@@ -58,10 +71,24 @@ const postPromocion = async ( req, res ) => {
 const putPromocion = async ( req, res ) => {
 
     const { idPromocion } = req.params;
+    const { foto, ...datos } = req.body;
 
     try {
 
-        await Promocion.findByIdAndUpdate( idPromocion, req.body );
+        let promocion = await Promocion.findById( idPromocion );
+
+        if ( foto ) {
+            if ( promocion.foto.length > 2 ){
+                const img = await archivo.putImagen( promocion, foto, 'promociones' );
+                promocion.foto.push( img );
+            } else {
+                const img = await archivo.subirFoto( foto, undefined, 'promociones' );
+                promocion.foto.push( img );
+            }
+            await promocion.save();
+        }
+
+        await promocion.updateOne( datos );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -85,7 +112,22 @@ const deletePromocion = async ( req, res ) => {
 
     try {
 
-        await Promocion.findByIdAndDelete( idPromocion );
+        const promocion = await Promocion.findById( idPromocion );
+
+        if ( promocion.foto ) {
+            const fotos = promocion.foto;
+            
+            for ( const foto of fotos ) {
+
+                const pathImagen = path.join( __dirname, '../uploads/', 'promociones', foto );
+
+                if ( fs.existsSync( pathImagen ) ){
+                    fs.unlinkSync( pathImagen );
+                }
+            }
+        }
+
+        await promocion.deleteOne();
 
         return res.status( 200 ).json( {
             value: 1,

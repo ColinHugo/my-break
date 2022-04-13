@@ -10,14 +10,15 @@ const subirFoto = ( dataURI, extensionesValidas = [ 'png', 'jpg', 'jpeg', 'webp'
     return new Promise( ( resolve, reject ) => {
 
         const extension = dataURI.split( ';' )[ 0 ].split( '/' )[ 1 ];
+
+        if ( !extensionesValidas.includes( extension ) ) {
+            return reject( `La extensión ${ extension } no es permitida - ${ extensionesValidas }` );
+        }
+
         const posicion = dataURI.indexOf( ',' ) + 1;
 
         const base64Data = dataURI.slice( posicion );
         const binaryData = new Buffer.from( base64Data, 'base64' ).toString( 'binary' );
-        
-        if ( !extensionesValidas.includes( extension ) ) {
-            return reject( `La extensión ${ extension } no es permitida - ${ extensionesValidas }` );
-        }
 
         const nombre = uuidv4() + '.' + extension;
         const carpetaContenedora = path.join( __dirname, '../uploads/', carpeta );
@@ -40,12 +41,12 @@ const subirFoto = ( dataURI, extensionesValidas = [ 'png', 'jpg', 'jpeg', 'webp'
     } );
 };
 
-const putImagen = async ( lugar, dataURI, carpeta ) => {
+const putImagen = async ( documentos, dataURI, carpeta ) => {
 
     try {
 
         // Hay que borrar la imagen del servidor
-        const arrayFotos = lugar.foto;
+        const arrayFotos = documentos.foto;
         const deleted = arrayFotos.shift();
 
         const pathImagen = path.join( __dirname, '../uploads/', carpeta, deleted );
@@ -54,7 +55,7 @@ const putImagen = async ( lugar, dataURI, carpeta ) => {
             fs.unlinkSync( pathImagen );
         }
 
-        const foto = await subirFoto( dataURI, undefined, 'lugares' ); 
+        const foto = await subirFoto( dataURI, undefined, carpeta ); 
 
         return foto;
         

@@ -95,7 +95,6 @@ const postUsuario = async ( req, res ) => {
     }
 };
 
-// TODO: realizar endpoint para restablecer password
 const putUsuario = async ( req, res ) => {
 
     const { idUsuario } = req.params;
