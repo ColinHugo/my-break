@@ -37,7 +37,8 @@ const getReservacion = async ( req, res ) => {
 
     try {
 
-        const reservacion = await Reservacion.findById( idReservacion );
+        const reservacion = await Reservacion.findById( idReservacion )
+            .populate( 'lugar', [ 'nombre', 'ubicacion' ] );
 
         if ( reservacion.length === 0 ) {
 
