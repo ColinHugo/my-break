@@ -1,14 +1,17 @@
-import { AtencionCliente, Usuario } from '../models/index.js';
+const { pathname: __dirname } = new URL( '.', import.meta.url );
+
+import path from 'path';
+import fs from 'fs';
+
+import { AtencionCliente } from '../models/index.js';
+
+import { generarUrlFotos, archivo } from '../helpers/index.js';
 
 const getMensajes = async ( req, res ) => {
 
-    const { idUsuario } = req.params;
-
     try {
 
-        const mensajes = await AtencionCliente.where( { receptor: idUsuario } )
-            .populate( 'emisor', [ 'nombre', 'apellidos'] )
-            .populate( 'receptor', [ 'nombre', 'apellidos'] );
+        let mensajes = await AtencionCliente.find();
 
         if ( mensajes.length === 0 ) {
 
@@ -17,6 +20,8 @@ const getMensajes = async ( req, res ) => {
                 msg: 'No hay mensajes que mostrar.'
             } );
         }
+
+        mensajes = generarUrlFotos( req, 'atencion', mensajes );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -35,15 +40,14 @@ const getMensajes = async ( req, res ) => {
 };
 
 const postMensajes = async ( req, res ) => {
-    
-    const { idReceptor } = req.params;
 
     try {
 
-        const receptor = await Usuario.findById( idReceptor );
+        if ( req.body.foto ) {
+            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'atencion' );
+        }
 
         req.body.emisor = req.body.usuario;
-        req.body.receptor = receptor;
 
         const mensaje = new AtencionCliente( req.body );
 
@@ -71,7 +75,17 @@ const deleteMensajes = async ( req, res ) => {
 
     try {
 
-        await AtencionCliente.findByIdAndDelete( idMensaje )
+        const atencion = await AtencionCliente.findById( idMensaje );
+
+        if ( atencion.foto ) {
+            const pathImagen = path.join( __dirname, '../uploads/', 'atencion', atencion.foto  );
+
+            if ( fs.existsSync( pathImagen ) ){
+                fs.unlinkSync( pathImagen );
+            }
+        }
+
+        await atencion.deleteOne();
 
         return res.status( 200 ).json( {
             value: 1,

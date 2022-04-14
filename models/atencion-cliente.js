@@ -12,11 +12,6 @@ const atencionClienteSchema = mongoose.Schema( {
         ref: 'Usuario'
     },
 
-    receptor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Usuario'
-    },
-
     foto: {
         type: String
     }
