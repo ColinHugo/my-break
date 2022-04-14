@@ -41,7 +41,7 @@ const getPedido = async ( req, res ) => {
 
         return res.status( 200 ).json( {
             value: 1,
-            comida
+            pedido
         } );
         
     } catch ( error ) {

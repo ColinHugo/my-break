@@ -11,7 +11,7 @@ const router = Router();
 router.get( '/', pedidos.getPedidos );
 
 router.get( '/:idPedido', [
-    check( 'idPedido' ).custom( dbValidators.existeComida ),
+    check( 'idPedido' ).custom( dbValidators.existePedido ),
     validarCampos
 ], pedidos.getPedido );
 
