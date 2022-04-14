@@ -1,5 +1,8 @@
 const { pathname: __dirname } = new URL( '.', import.meta.url );
 
+import path from 'path';
+import fs from 'fs';
+
 import { Comida } from '../models/index.js';
 
 import { generarUrlFotos, archivo } from '../helpers/index.js';
@@ -63,6 +66,10 @@ const getComida = async ( req, res ) => {
 const postComida = async ( req, res ) => {
 
     try {
+
+        if ( req.body.foto ) {
+            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'comidas' );
+        }
 
         const comida = new Comida( req.body );
 
@@ -131,7 +138,17 @@ const deleteComida = async ( req, res ) => {
 
     try {
 
-        await Comida.findByIdAndDelete( idComida );
+        const comida = await Comida.findById( idComida );
+
+        if ( comida.foto ) {
+            const pathImagen = path.join( __dirname, '../uploads/comidas/', comida.foto );
+
+            if ( fs.existsSync( pathImagen ) ) {
+                fs.unlinkSync( pathImagen );
+            }
+        }
+
+        await comida.deleteOne();
 
         return res.status( 200 ).json( {
             value: 1,
