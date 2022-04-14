@@ -14,7 +14,6 @@ import comentarios from './routes/comentarios.routes.js';
 import comidas from './routes/comidas.routes.js';
 import emergencias from './routes/emergencias.routes.js';
 import lugares from './routes/lugares.routes.js';
-import menus from './routes/menus.routes.js';
 import pedidos from './routes/pedidos.routes.js';
 import promociones from './routes/promociones.routes.js';
 import reportes from './routes/reportes.routes.js';
@@ -39,7 +38,6 @@ class Server{
             emergencias: '/emergencias',
             promociones: '/promociones',
             lugares: '/lugares',
-            menus: '/menus',
             pedidos: '/pedidos',
             promociones: '/promociones',
             reportes: '/reportes',
@@ -73,7 +71,6 @@ class Server{
         this.app.use( this.paths.comentarios, comentarios );
         this.app.use( this.paths.emergencias, emergencias );
         this.app.use( this.paths.lugares, lugares );
-        this.app.use( this.paths.menus, menus );
         this.app.use( this.paths.pedidos, pedidos );
         this.app.use( this.paths.promociones, promociones );
         this.app.use( this.paths.reportes, reportes );
