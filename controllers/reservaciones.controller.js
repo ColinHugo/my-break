@@ -5,7 +5,7 @@ const getReservaciones = async ( req, res ) => {
     try {
 
         const reservaciones = await Reservacion.find()
-            .populate( 'visita' );
+            .populate( 'lugar', [ 'nombre', 'ubicacion' ] );
 
         if ( reservaciones.length === 0 ) {
 
@@ -116,9 +116,34 @@ const putReservacion = async ( req, res ) => {
     }
 };
 
+const deleteReservacion = async ( req, res ) => {
+
+    const { idReservacion } = req.params;
+
+    try {
+
+        await Reservacion.findByIdAndDelete( idReservacion );
+
+        return res.status( 200 ).json( {
+            value: 1,
+            msg: 'La reservación se ha eliminado correctamnete.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al eliminar la reservación.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al eliminar la reservación.'
+        } );
+    }
+};
+
 export {
     getReservaciones,
     getReservacion,
     postReservacion,
-    putReservacion
+    putReservacion,
+    deleteReservacion
 }

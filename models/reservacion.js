@@ -23,17 +23,15 @@ const reservacionSchema = mongoose.Schema( {
     correo: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
 
-    diasAReservar: {
+    numeroAdultos: {
         type: Number,
-        required: [ true, 'Los días a reservar son obligatorios.' ],
         trim: true
     },
 
-    numeroPersonas: {
+    numeroNinos: {
         type: Number,
         trim: true
     },
@@ -51,13 +49,13 @@ const reservacionSchema = mongoose.Schema( {
     },
 
     estado: {
-        type: Boolean,
-        default: false
+        type: Number,
+        default: 2
     },
 
-    visita: {
+    lugar: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Visita'
+        ref: 'Lugar'
     }
 
 }, {
