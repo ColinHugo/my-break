@@ -1,12 +1,10 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { dbValidators } from '../helpers/index.js';
-import { validarCampos } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos } = require( '../middlewares' );
 
-import * as usuario from '../controllers/usuarios.controller.js';
-
-const router = Router();
+const usuario = require( '../controllers/usuarios.controller' );
 
 router.get( '/', usuario.getUsuarios );
 
@@ -40,4 +38,4 @@ router.delete( '/:idUsuario', [
     validarCampos
 ], usuario.deleteUsuario );
 
-export default router;
+module.exports = router;

@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const promocionSchema = mongoose.Schema( {
+const promocionSchema = Schema( {
 
     nombre: {
         type: String,        
@@ -34,4 +34,4 @@ promocionSchema.methods.toJSON = function(){
     return promocion;
 }
 
-export default mongoose.model( 'Promocion', promocionSchema );
+module.exports = model( 'Promocion', promocionSchema );

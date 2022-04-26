@@ -1,11 +1,10 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { validarCampos, validarJWT } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos, validarJWT } = require( '../middlewares' );
 
-import * as mensajes from '../controllers/atencion-cliente.controller.js';
-
-const router = Router();
+const mensajes = require( '../controllers/atencion-cliente.controller' );
 
 router.get( '/', mensajes.getMensajes );
 
@@ -19,7 +18,8 @@ router.post( '/', [
 router.delete( '/:idMensaje', [
     validarJWT,
     check( 'idMensaje', 'No es un id válido.' ).isMongoId(),
+    check( 'idMensaje' ).custom( dbValidators.existeMensaje ),
     validarCampos
 ], mensajes.deleteMensajes );
 
-export default router;
+module.exports = router;

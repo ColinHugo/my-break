@@ -1,4 +1,4 @@
-import { Emergencia } from '../models/index.js';
+const { Emergencia } = require( '../models' );
 
 const getEmergencias = async ( req, res ) => {
 
@@ -8,7 +8,7 @@ const getEmergencias = async ( req, res ) => {
 
         if ( emergencias.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay contactos de emergencias registrados.'
             } );
@@ -102,7 +102,7 @@ const deleteEmergencia = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getEmergencias,
     postEmergencia,
     putEmergencia,

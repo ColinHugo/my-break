@@ -9,14 +9,22 @@ const generarUrlFotos = ( req, carpeta, documentos ) => {
                     documento.foto[ i ] = `${ req.protocol }://${ req.headers.host }/${ carpeta }/${ documento.foto[ i ] }`;
                 }
             } else {
-                documento.foto = `${ req.protocol }://${ req.headers.host }/${ carpeta }/${ documento.foto }`;
+                if ( documento.foto ) {
+                    documento.foto = `${ req.protocol }://${ req.headers.host }/${ carpeta }/${ documento.foto }`;
+                } else {
+                    documento.foto = `${ req.protocol }://${ req.headers.host }/no-image.jpg`;
+                }
             }
         } );
     } else {
-        documentos.foto = `${ req.protocol }://${ req.headers.host }/${ carpeta }/${ documentos.foto }`;
+        if ( documentos.foto ) {
+            documentos.foto = `${ req.protocol }://${ req.headers.host }/${ carpeta }/${ documentos.foto }`;
+        } else {
+            documentos.foto = `${ req.protocol }://${ req.headers.host }/no-image.jpg`;
+        }
     }
 
     return documentos;
 }
 
-export default generarUrlFotos;
+module.exports = generarUrlFotos;

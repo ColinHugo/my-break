@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const atencionClienteSchema = mongoose.Schema( {
+const atencionClienteSchema = Schema( {
     
     mensaje: {
         type: String,
@@ -8,7 +8,7 @@ const atencionClienteSchema = mongoose.Schema( {
     },
 
     emisor: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
 
@@ -28,4 +28,4 @@ atencionClienteSchema.methods.toJSON = function(){
     return mensaje;
 }
 
-export default mongoose.model( 'Atencion_cliente', atencionClienteSchema );
+module.exports = model( 'Atencion_cliente', atencionClienteSchema );

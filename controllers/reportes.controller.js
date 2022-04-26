@@ -1,4 +1,4 @@
-import { Reporte } from '../models/index.js';
+const { Reporte } = require( '../models' );
 
 const getReportes = async ( req, res ) => {
 
@@ -8,7 +8,7 @@ const getReportes = async ( req, res ) => {
 
         if ( reportes.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay reportes registrados.'
             } );
@@ -55,7 +55,7 @@ const postReporte = async ( req, res ) => {
 
 };
 
-export {
+module.exports = {
     getReportes,
     postReporte
 }

@@ -1,18 +1,25 @@
-import { Comentario } from '../models/index.js';
+const path = require( 'path' );
+const fs = require( 'fs' );
+
+const { Comentario } = require( '../models' );
+
+const { subirFoto, generarUrlFotos } = require( '../helpers' );
 
 const getComentarios = async ( req, res ) => {
 
     try {
 
-        const comentarios = await Comentario.find();
+        let comentarios = await Comentario.find();
 
         if ( comentarios.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay comentarios registrados.'
             } );
         }
+
+        comentarios = generarUrlFotos( req, 'comentarios', comentarios );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -34,6 +41,10 @@ const postComentario = async ( req, res ) => {
 
     try {
 
+        if ( req.body.foto ) {
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'comentarios' );
+        }
+
         const comentario = new Comentario( req.body );
 
         await comentario.save();
@@ -54,7 +65,7 @@ const postComentario = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getComentarios,
     postComentario
 }

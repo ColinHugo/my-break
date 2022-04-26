@@ -1,6 +1,6 @@
-import { Usuario } from '../models/index.js';
+const { Usuario } = require( '../models' );
 
-import { generarJWT } from '../helpers/index.js';
+const { generarJWT } = require( '../helpers' );
 
 const iniciarSesion = async ( req, res ) => {
 
@@ -14,7 +14,7 @@ const iniciarSesion = async ( req, res ) => {
         false : await usuario.comprobarPassword( password );
     
         if ( !passwordCorrect ) {
-            return res.json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'Usuario o Password incorrectos',
             } );
@@ -32,13 +32,11 @@ const iniciarSesion = async ( req, res ) => {
 
         console.error( 'Error al inicar sesión', error );
 
-        return res.json( {
+        return res.status( 500 ).json( {
             value: 0,
             msg: 'Error al inicar sesión',
         } );
     }
 };
 
-export {
-    iniciarSesion
-}
+module.exports = iniciarSesion;

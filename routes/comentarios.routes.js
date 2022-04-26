@@ -1,18 +1,17 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { validarCampos, validarJWT } from '../middlewares/index.js';
+const { validarCampos, validarJWT } = require( '../middlewares' );
 
-import * as comentarios from '../controllers/comentarios.controller.js';
-
-const router = Router();
+const comentarios = require( '../controllers/comentarios.controller' );
 
 router.get( '/', comentarios.getComentarios );
 
 router.post( '/', [
     validarJWT,
     check( 'mensaje', 'El mensaje es obligatorio.' ).trim().escape().notEmpty(),
+    check( 'foto', 'La foto del comentario es obligatoria.' ).trim().notEmpty(),
     validarCampos
 ], comentarios.postComentario );
 
-export default router;
+module.exports = router;

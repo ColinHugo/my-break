@@ -1,11 +1,9 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-import fs from 'fs';
-import path from 'path';
+const { Usuario } = require( '../models' );
 
-import { Usuario } from '../models/index.js';
-
-import { archivo, generarUrlFotos } from '../helpers/index.js';
+const { generarUrlFotos, archivo } = require( '../helpers' );
 
 const getUsuario = async ( req, res ) => {
 
@@ -43,7 +41,7 @@ const getUsuarios = async ( req, res ) => {
 
         if ( usuarios.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay usuarios registrados.'
             } );
@@ -163,7 +161,7 @@ const deleteUsuario = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getUsuario,
     getUsuarios,
     postUsuario,

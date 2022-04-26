@@ -1,12 +1,10 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { dbValidators } from '../helpers/index.js';
-import { validarCampos, validarJWT } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos, validarJWT } = require( '../middlewares' );
 
-import * as lugares from '../controllers/lugares.controller.js';
-
-const router = Router();
+const lugares = require( '../controllers/lugares.controller' );
 
 router.get( '/', lugares.getLugares );
 
@@ -38,4 +36,4 @@ router.delete( '/:idLugar', [
     validarCampos
 ], lugares.deleteLugar );
 
-export default router;
+module.exports = router;

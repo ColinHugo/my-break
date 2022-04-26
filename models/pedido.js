@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const pedidoSchema = mongoose.Schema( {
+const pedidoSchema = Schema( {
 
     pedido: [ {
 
@@ -28,7 +28,7 @@ const pedidoSchema = mongoose.Schema( {
     },
 
     usuario: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }
     
@@ -53,4 +53,4 @@ pedidoSchema.methods.toJSON = function(){
     return pedido;
 }
 
-export default mongoose.model( 'Pedido', pedidoSchema );
+module.exports = model( 'Pedido', pedidoSchema );

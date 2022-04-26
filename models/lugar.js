@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const lugarSchema = mongoose.Schema( {
+const lugarSchema = Schema( {
 
     nombre: {
         type: String,
@@ -41,4 +41,4 @@ lugarSchema.methods.toJSON = function(){
     return lugar;
 }
 
-export default mongoose.model( 'Lugar', lugarSchema );
+module.exports = model( 'Lugar', lugarSchema );

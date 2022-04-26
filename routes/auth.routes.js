@@ -1,10 +1,8 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { iniciarSesion } from '../controllers/auth.controller.js';
-import { validarCampos } from '../middlewares/index.js';
-
-const router = Router();
+const iniciarSesion = require( '../controllers/auth.controller' );
+const { validarCampos } = require( '../middlewares' );
 
 router.post( '/login', [
     check( 'correo', 'El correo es obligatorio' ).escape().trim().notEmpty(),
@@ -13,4 +11,4 @@ router.post( '/login', [
     validarCampos
 ], iniciarSesion );
 
-export default router;
+module.exports = router;

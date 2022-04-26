@@ -1,11 +1,9 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-import path from 'path';
-import fs from 'fs';
+const { Promocion } = require( '../models' );
 
-import { Promocion } from '../models/index.js';
-
-import { archivo, generarUrlFotos } from '../helpers/index.js';
+const { generarUrlFotos, subirFoto } = require( '../helpers' );
 
 const getPromociones = async ( req, res ) => {
 
@@ -15,7 +13,7 @@ const getPromociones = async ( req, res ) => {
 
         if ( promociones.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay promociones registradas.'
             } );
@@ -44,7 +42,7 @@ const postPromocion = async ( req, res ) => {
     try {
 
         if ( req.body.foto ) {
-            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'promociones' );
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'promociones' );
         }
 
         const promocion = new Promocion( req.body );
@@ -79,10 +77,10 @@ const putPromocion = async ( req, res ) => {
 
         if ( foto ) {
             if ( promocion.foto.length > 2 ){
-                const img = await archivo.putImagen( promocion, foto, 'promociones' );
+                const img = await putImagen( promocion, foto, 'promociones' );
                 promocion.foto.push( img );
             } else {
-                const img = await archivo.subirFoto( foto, undefined, 'promociones' );
+                const img = await subirFoto( foto, undefined, 'promociones' );
                 promocion.foto.push( img );
             }
             await promocion.save();
@@ -145,7 +143,7 @@ const deletePromocion = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getPromociones,
     postPromocion,
     putPromocion,

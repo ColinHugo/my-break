@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+const { Schema, model } = require( 'mongoose' );
+const bcrypt = require( 'bcrypt' );
 
-const usuarioSchema = mongoose.Schema( {
+const usuarioSchema = Schema( {
 
     estado: {
         type: Boolean,        
@@ -80,4 +80,4 @@ usuarioSchema.methods.toJSON = function () {
     return usuario;
 }
 
-export default mongoose.model( 'Usuario', usuarioSchema );
+module.exports = model( 'Usuario', usuarioSchema );

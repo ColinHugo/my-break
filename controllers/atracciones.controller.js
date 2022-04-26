@@ -1,18 +1,25 @@
-import { Atraccion } from '../models/index.js';
+const path = require( 'path' );
+const fs = require( 'fs' );
+
+const { Atraccion } = require( '../models' );
+
+const { subirFoto, generarUrlFotos } = require( '../helpers' );
 
 const getAtracciones = async ( req, res ) => {
 
     try {
 
-        const atracciones = await Atraccion.find();
+        let atracciones = await Atraccion.find();
 
         if ( atracciones.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay atracciones registradas.'
             } );
         }
+
+        atracciones = generarUrlFotos( req, 'atracciones', atracciones );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -33,6 +40,10 @@ const getAtracciones = async ( req, res ) => {
 const postAtraccion = async ( req, res ) => {
 
     try {
+
+        if ( req.body.foto ) {
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'atracciones' );
+        }
 
         const atraccion = new Atraccion( req.body );
 
@@ -61,7 +72,23 @@ const putAtraccion = async ( req, res ) => {
 
     try {
 
-        await Atraccion.findByIdAndUpdate( idAtraccion, req.body );
+        const atraccion = await Atraccion.findById( idAtraccion );
+
+        if ( req.body.foto ) {
+
+            if ( atraccion.foto ) {
+    
+                const pathImagen = path.join( __dirname, '../uploads/atracciones/', atraccion.foto );
+    
+                if ( fs.existsSync( pathImagen ) ) {
+                    fs.unlinkSync( pathImagen );
+                }
+            }
+            
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'atracciones' );
+        }
+
+        await atraccion.updateOne( req.body );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -85,7 +112,18 @@ const deleteAtraccion = async ( req, res ) => {
 
     try {
 
-        await Atraccion.findByIdAndDelete( idAtraccion );
+        const atraccion = await Atraccion.findById( idAtraccion );
+
+        if ( atraccion.foto ) {
+
+            const pathImagen = path.join( __dirname, '../uploads/atracciones/', atraccion.foto );
+
+            if ( fs.existsSync( pathImagen ) ){
+                fs.unlinkSync( pathImagen );
+            }
+        }
+
+        await atraccion.deleteOne();
 
         return res.status( 200 ).json( {
             value: 1,
@@ -103,7 +141,7 @@ const deleteAtraccion = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getAtracciones,
     postAtraccion,
     putAtraccion,

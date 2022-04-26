@@ -1,16 +1,16 @@
-import AtencionCliente from './atencion-cliente.js';
-import Atraccion from './atraccion.js';
-import Comentario from './comentario.js';
-import Comida from './comida.js';
-import Emergencia from './emergencia.js';
-import Promocion from './promocion.js';
-import Pedido from './pedido.js';
-import Reporte from './reporte.js';
-import Reservacion from './reservacion.js';
-import Usuario from './usuario.js';
-import Lugar from './lugar.js';
+const AtencionCliente = require( './atencion-cliente' );
+const Atraccion = require( './atraccion' );
+const Comentario = require( './comentario' );
+const Comida = require( './comida' );
+const Emergencia = require( './emergencia' );
+const Promocion = require( './promocion' );
+const Pedido = require( './pedido' );
+const Reporte = require( './reporte' );
+const Reservacion = require( './reservacion' );
+const Usuario = require( './usuario' );
+const Lugar = require( './lugar' );
 
-export {
+module.exports = {
     AtencionCliente,
     Atraccion,
     Comentario,
@@ -21,5 +21,5 @@ export {
     Promocion,
     Reporte,
     Reservacion,
-    Usuario,
+    Usuario
 }

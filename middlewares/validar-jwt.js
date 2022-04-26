@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+const jwt = require( 'jsonwebtoken' );
 
-import { Usuario } from '../models/index.js';
+const { Usuario } = require( '../models' );
 
 const validarJWT = async ( req, res, next ) => {
 
@@ -41,4 +41,4 @@ const validarJWT = async ( req, res, next ) => {
     }
 };
 
-export default validarJWT;
+module.exports = validarJWT;

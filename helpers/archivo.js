@@ -1,9 +1,7 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const path = require( 'path' );
+const fs = require( 'fs' );
 
-import path from 'path';
-import fs from 'fs';
-
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 
 const subirFoto = ( dataURI, extensionesValidas = [ 'png', 'jpg', 'jpeg', 'webp' ], carpeta = '' ) => {
 
@@ -63,14 +61,14 @@ const putImagen = async ( documentos, dataURI, carpeta ) => {
 
         console.error( 'Error al borrar la imagen previa.', error );
 
-            return res.json( {
-                value: 0,
-                msg:  'Error al borrar la imagen previa.'
-            } );
+        return res.json( {
+            value: 0,
+            msg:  'Error al borrar la imagen previa.'
+        } );
     }
 };
 
-export {
+module.exports = {
     subirFoto,
-    putImagen
+    putImagen    
 }

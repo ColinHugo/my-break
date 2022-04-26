@@ -1,21 +1,20 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { dbValidators } from '../helpers/index.js';
-import { validarCampos, validarJWT } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos, validarJWT } = require( '../middlewares' );
 
-import * as atracciones from '../controllers/atracciones.controller.js';
-
-const router = Router();
+const atracciones = require( '../controllers/atracciones.controller' );
 
 router.get( '/', atracciones.getAtracciones );
 
 router.post( '/', [
     validarJWT,
-    check( 'tipo' ).trim().escape(),
-    check( 'descripcion' ).trim().escape(),
-    check( 'ubicacion' ).trim().escape(),
-    check( 'contacto' ).trim().escape(),
+    check( 'tipo', 'El tipo de la atracción es obligatoria.' ).trim().escape(),
+    check( 'descripcion', 'La descripcion de la atracción es obligatoria.' ).trim().escape(),
+    check( 'ubicacion', 'La ubicacion de la atracción es obligatoria.' ).trim().notEmpty(),
+    check( 'contacto', 'El contacto de la atracción es obligatoria.' ).trim().escape(),
+    check( 'foto', 'La foto de la atracción es obligatoria.' ).trim().notEmpty(),
     validarCampos
 ], atracciones.postAtraccion );
 
@@ -33,4 +32,4 @@ router.delete( '/:idAtraccion', [
     validarCampos
 ], atracciones.deleteAtraccion );
 
-export default router;
+module.exports = router;

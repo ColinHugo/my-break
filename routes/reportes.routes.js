@@ -1,12 +1,10 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { dbValidators } from '../helpers/index.js';
-import { validarCampos, validarJWT } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos, validarJWT } = require( '../middlewares' );
 
-import * as reportes from '../controllers/reportes.controller.js';
-
-const router = Router();
+const reportes = require( '../controllers/reportes.controller' );
 
 router.get( '/', reportes.getReportes );
 
@@ -18,4 +16,4 @@ router.post( '/:idEncargado', [
     validarCampos
 ], reportes.postReporte );
 
-export default router;
+module.exports = router;

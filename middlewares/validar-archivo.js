@@ -19,4 +19,4 @@ const validarArchivo = ( req, res, next ) => {
     next();
 }
 
-export default validarArchivo;
+module.exports = validarArchivo;

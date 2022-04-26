@@ -1,8 +1,8 @@
-import validarArchivo from './validar-archivo.js';
-import validarCampos from './validar-campos.js';
-import validarJWT from './validar-jwt.js';
+const validarArchivo = require( './validar-archivo.js' );
+const validarCampos = require( './validar-campos.js' );
+const validarJWT = require( './validar-jwt.js' );
 
-export {
+module.exports = {
     validarArchivo,
     validarCampos,
     validarJWT

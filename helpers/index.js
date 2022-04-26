@@ -1,10 +1,10 @@
-import * as dbValidators from './db-validators.js';
-import generarJWT from './generar-jwt.js';
-import generarUrlFotos from './generar-url-fotos.js';
-import * as archivo from './archivo.js';
+const dbValidators = require( './db-validators' );
+const generarJWT = require( './generar-jwt' );
+const generarUrlFotos = require( './generar-url-fotos' );
+const archivo = require( './archivo' );
 
-export {
-    archivo,
+module.exports = {
+    ...archivo,
     dbValidators,
     generarJWT,
     generarUrlFotos

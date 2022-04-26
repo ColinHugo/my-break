@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const reservacionSchema = mongoose.Schema( {
+const reservacionSchema = Schema( {
 
     nombre: {
         type: String,
@@ -54,7 +54,7 @@ const reservacionSchema = mongoose.Schema( {
     },
 
     lugar: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Lugar'
     }
 
@@ -70,4 +70,4 @@ reservacionSchema.methods.toJSON = function(){
     return reservacion;
 }
 
-export default mongoose.model( 'Reservacion', reservacionSchema );
+module.exports = model( 'Reservacion', reservacionSchema );

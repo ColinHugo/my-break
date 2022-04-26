@@ -1,12 +1,10 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+const router = require( 'express' ).Router();
+const { check } = require( 'express-validator' );
 
-import { dbValidators } from '../helpers/index.js';
-import { validarCampos } from '../middlewares/index.js';
+const { dbValidators } = require( '../helpers' );
+const { validarCampos } = require( '../middlewares' );
 
-import * as reservacion from '../controllers/reservaciones.controller.js';
-
-const router = Router();
+const reservacion = require( '../controllers/reservaciones.controller' );
 
 router.get( '/', reservacion.getReservaciones );
 
@@ -23,8 +21,8 @@ router.post( '/:idLugar', [
     check( 'correo', 'Ingrese un correo electrónico válido.' ).trim().notEmpty().escape().isEmail(),
     check( 'numeroAdultos', 'Ingrese una cantidad válida para adultos.' ).trim().isNumeric().toInt(),
     check( 'numeroNinos', 'Ingrese una cantidad válida para niños.' ).trim().isNumeric().toInt(),
-    check( 'fechaLlegada', 'La fecha de llegada es obligatoria.' ).trim().notEmpty().escape(),
-    check( 'fechaSalida', 'La fecha de salida es obligatoria.' ).trim().notEmpty().escape(),
+    check( 'fechaLlegada', 'Ingrese una fecha de llegada válida.' ).trim().notEmpty().escape().isDate(),
+    check( 'fechaSalida', 'Ingrese una fecha de salida válida.' ).trim().notEmpty().escape().isDate(),
     check( 'idLugar' ).custom( dbValidators.existeLugar ),
     validarCampos
 ], reservacion.postReservacion );
@@ -41,4 +39,4 @@ router.delete( '/:idReservacion', [
     validarCampos
 ], reservacion.deleteReservacion );
 
-export default router;
+module.exports = router;

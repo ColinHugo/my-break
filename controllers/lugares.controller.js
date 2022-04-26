@@ -1,11 +1,9 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-import path from 'path';
-import fs from 'fs';
+const { Lugar } = require( '../models' );
 
-import { Lugar } from '../models/index.js';
-
-import { generarUrlFotos, archivo } from '../helpers/index.js';
+const { generarUrlFotos, subirFoto } = require( '../helpers' );
 
 const getLugares = async ( req, res ) => {
 
@@ -15,7 +13,7 @@ const getLugares = async ( req, res ) => {
 
         if ( lugares.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay lugares registradas.'
             } );
@@ -44,7 +42,7 @@ const postLugar = async ( req, res ) => {
     try {
 
         if ( req.body.foto ) {
-            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'lugares' );
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'lugares' );
         }
 
         const lugar = new Lugar( req.body );
@@ -79,10 +77,10 @@ const putLugar = async ( req, res ) => {
 
         if ( foto ) {
             if ( lugar.foto.length > 6 ){
-                const img = await archivo.putImagen( lugar, foto, 'lugares' );
+                const img = await putImagen( lugar, foto, 'lugares' );
                 lugar.foto.push( img );
             } else {
-                const img = await archivo.subirFoto( foto, undefined, 'lugares' );
+                const img = await subirFoto( foto, undefined, 'lugares' );
                 lugar.foto.push( img );
             }
             await lugar.save();
@@ -145,7 +143,7 @@ const deleteLugar = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getLugares,
     postLugar,
     putLugar,

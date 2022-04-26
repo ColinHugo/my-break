@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const comentarioSchema = mongoose.Schema( {
+const comentarioSchema = Schema( {
 
     mensaje: {
         type: String,
@@ -23,4 +23,4 @@ comentarioSchema.methods.toJSON = function(){
     return comentario;
 }
 
-export default mongoose.model( 'Comentario', comentarioSchema );
+module.exports = model( 'Comentario', comentarioSchema );

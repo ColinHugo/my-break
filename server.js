@@ -1,30 +1,13 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const path = require( 'path' );
+const express = require( 'express' );
+const cors = require( 'cors' );
+const mongoSanitize = require( 'express-mongo-sanitize' );
 
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import mongoSanitize from 'express-mongo-sanitize';
-
-import dbConnection from './database/config.js';
-
-import atencionCliente from './routes/atencion-cliente.routes.js';
-import atracciones from './routes/atracciones.routes.js';
-import auth from './routes/auth.routes.js';
-import comentarios from './routes/comentarios.routes.js';
-import comidas from './routes/comidas.routes.js';
-import emergencias from './routes/emergencias.routes.js';
-import lugares from './routes/lugares.routes.js';
-import pedidos from './routes/pedidos.routes.js';
-import promociones from './routes/promociones.routes.js';
-import reportes from './routes/reportes.routes.js';
-import reservaciones from './routes/reservaciones.routes.js';
-import usuarios from './routes/usuarios.routes.js';
+const dbConnection = require( './database/config' );
 
 class Server{
 
     constructor(){
-
-        dotenv.config();
 
         this.app = express();
         this.port = process.env.PORT;
@@ -60,22 +43,23 @@ class Server{
         this.app.use( cors() );
         this.app.use( express.json( { limit: '100mb' } ) );
         this.app.use( mongoSanitize() );
-        this.app.use( express.static( __dirname + './uploads' ) );
+        this.app.use( express.static( path.join( __dirname, '/uploads'  ) ) );
+        this.app.use( express.static( path.join( __dirname, '/assets'  ) ) );
     }
 
     routes(){
-        this.app.use( this.paths.atencionCliente, atencionCliente );
-        this.app.use( this.paths.atracciones, atracciones );
-        this.app.use( this.paths.auth, auth );
-        this.app.use( this.paths.comidas, comidas );
-        this.app.use( this.paths.comentarios, comentarios );
-        this.app.use( this.paths.emergencias, emergencias );
-        this.app.use( this.paths.lugares, lugares );
-        this.app.use( this.paths.pedidos, pedidos );
-        this.app.use( this.paths.promociones, promociones );
-        this.app.use( this.paths.reportes, reportes );
-        this.app.use( this.paths.reservaciones, reservaciones );
-        this.app.use( this.paths.usuarios, usuarios );
+        this.app.use( this.paths.atencionCliente, require( './routes/atencion-cliente.routes' ) );
+        this.app.use( this.paths.atracciones, require( './routes/atracciones.routes' ) );
+        this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
+        this.app.use( this.paths.comentarios, require( './routes/comentarios.routes' ) );
+        this.app.use( this.paths.comidas, require( './routes/comidas.routes' ) );
+        this.app.use( this.paths.emergencias, require( './routes/emergencias.routes' ) );
+        this.app.use( this.paths.lugares, require( './routes/lugares.routes' ) );
+        this.app.use( this.paths.pedidos, require( './routes/pedidos.routes' ) );
+        this.app.use( this.paths.promociones, require( './routes/promociones.routes' ) );
+        this.app.use( this.paths.reportes, require( './routes/reportes.routes' ) );
+        this.app.use( this.paths.reservaciones, require( './routes/reservaciones.routes' ) );
+        this.app.use( this.paths.usuarios, require( './routes/usuarios.routes' ) );
     }
 
     listen(){
@@ -85,4 +69,4 @@ class Server{
     }
 }
 
-export default Server;
+module.exports = Server;

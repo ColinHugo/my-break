@@ -1,11 +1,9 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-import path from 'path';
-import fs from 'fs';
+const { Comida } = require( '../models' );
 
-import { Comida } from '../models/index.js';
-
-import { generarUrlFotos, archivo } from '../helpers/index.js';
+const { generarUrlFotos, subirFoto } = require( '../helpers' );
 
 const getComidas = async ( req, res ) => {
 
@@ -15,7 +13,7 @@ const getComidas = async ( req, res ) => {
 
         if ( comidas.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay comidas registradas.'
             } );
@@ -45,7 +43,9 @@ const getComida = async ( req, res ) => {
 
     try {
 
-        const comida = await Comida.findById( idComida );
+        let comida = await Comida.findById( idComida );
+
+        comida = generarUrlFotos( req, 'comidas', comida );
 
         return res.status( 200 ).json( {
             value: 1,
@@ -68,7 +68,7 @@ const postComida = async ( req, res ) => {
     try {
 
         if ( req.body.foto ) {
-            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'comidas' );
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'comidas' );
         }
 
         const comida = new Comida( req.body );
@@ -111,7 +111,7 @@ const putComida = async ( req, res ) => {
                 }
             }
 
-            datos.foto = await archivo.subirFoto( foto, undefined, 'comidas' );
+            datos.foto = await subirFoto( foto, undefined, 'comidas' );
         }
 
         await comida.updateOne( datos );
@@ -166,7 +166,7 @@ const deleteComida = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getComidas,
     getComida,
     postComida,

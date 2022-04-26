@@ -1,4 +1,4 @@
-import * as models from '../models/index.js';
+const models = require( '../models' );
 
 const existeAtraccion = async ( id ) => {
     
@@ -33,6 +33,15 @@ const existeEmergencia = async ( id ) => {
     
     if ( !emergencia ) {
         throw new Error( `No existe contacto de emergencia con el id ${ id }` );
+    }
+}
+
+const existeMensaje = async ( id ) => {
+    
+    const mensaje = await models.AtencionCliente.findById( id );
+    
+    if ( !mensaje ) {
+        throw new Error( `No existe mensaje con el id ${ id }` );
     }
 }
 
@@ -90,13 +99,14 @@ const existeLugar = async ( id ) => {
     }
 }
 
-export {
+module.exports = {
     existeAtraccion,
     existeComida,
     existeEmail,
     existeEmergencia,
     existeLugar,
     existeMenu,
+    existeMensaje,
     existePedido,
     existePromocion,
     existeReservacion,

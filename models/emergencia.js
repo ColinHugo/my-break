@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const { Schema, model } = require( 'mongoose' );
 
-const emergenciaSchema = mongoose.Schema( {
+const emergenciaSchema = Schema( {
 
     descripcion: {
         type: String,
@@ -24,4 +24,4 @@ emergenciaSchema.methods.toJSON = function(){
     return emergencia;
 }
 
-export default mongoose.model( 'Emergencia', emergenciaSchema );
+module.exports = model( 'Emergencia', emergenciaSchema );

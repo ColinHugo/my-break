@@ -1,21 +1,20 @@
-const { pathname: __dirname } = new URL( '.', import.meta.url );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-import path from 'path';
-import fs from 'fs';
+const { AtencionCliente } = require( '../models' );
 
-import { AtencionCliente } from '../models/index.js';
-
-import { generarUrlFotos, archivo } from '../helpers/index.js';
+const { generarUrlFotos, subirFoto } = require( '../helpers' );
 
 const getMensajes = async ( req, res ) => {
 
     try {
 
-        let mensajes = await AtencionCliente.find();
+        let mensajes = await AtencionCliente.find()
+            .populate( 'emisor', [ 'nombre', 'apellidos' ] );
 
         if ( mensajes.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay mensajes que mostrar.'
             } );
@@ -44,7 +43,7 @@ const postMensajes = async ( req, res ) => {
     try {
 
         if ( req.body.foto ) {
-            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'atencion' );
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'atencion' );
         }
 
         req.body.emisor = req.body.usuario;
@@ -103,7 +102,7 @@ const deleteMensajes = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getMensajes,
     postMensajes,
     deleteMensajes

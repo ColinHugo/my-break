@@ -1,4 +1,4 @@
-import { Reservacion, Lugar } from '../models/index.js';
+const { Reservacion, Lugar } = require( '../models' );
 
 const getReservaciones = async ( req, res ) => {
 
@@ -9,7 +9,7 @@ const getReservaciones = async ( req, res ) => {
 
         if ( reservaciones.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay reservaciónes registradas.'
             } );
@@ -42,7 +42,7 @@ const getReservacion = async ( req, res ) => {
 
         if ( reservacion.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay reservación registrada.'
             } );
@@ -141,7 +141,7 @@ const deleteReservacion = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getReservaciones,
     getReservacion,
     postReservacion,

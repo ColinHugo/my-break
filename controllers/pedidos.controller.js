@@ -1,4 +1,4 @@
-import { Pedido } from '../models/index.js';
+const { Pedido } = require( '../models' );
 
 const getPedidos = async ( req, res ) => {
 
@@ -9,7 +9,7 @@ const getPedidos = async ( req, res ) => {
 
         if ( pedidos.length === 0 ) {
 
-            return res.status( 205 ).json( {
+            return res.status( 404 ).json( {
                 value: 0,
                 msg: 'No hay órdenes registradas.'
             } );
@@ -127,7 +127,7 @@ const deletePedido = async ( req, res ) => {
     }
 };
 
-export {
+module.exports = {
     getPedidos,
     getPedido,
     postPedido,
