@@ -3,7 +3,7 @@ const path = require( 'path' );
 
 const { Usuario } = require( '../models' );
 
-const { generarUrlFotos, archivo } = require( '../helpers' );
+const { generarUrlFotos, subirFoto } = require( '../helpers' );
 
 const getUsuario = async ( req, res ) => {
 
@@ -70,7 +70,7 @@ const postUsuario = async ( req, res ) => {
     try {
 
         if ( req.body.foto ) {
-            req.body.foto = await archivo.subirFoto( req.body.foto, undefined, 'usuarios' );
+            req.body.foto = await subirFoto( req.body.foto, undefined, 'usuarios' );
         }
 
         const usuario = new Usuario( req.body );
