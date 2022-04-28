@@ -15,13 +15,11 @@ router.get( '/:idUsuario', [
 ], usuario.getUsuario );
 
 router.post( '/', [
-    check( 'nombre', 'Ingrese un nombre válido.' ).escape().trim().notEmpty(),
-    check( 'apellidos', 'Ingrese apellidos válidos.' ).escape().trim().notEmpty(),
-    check( 'telefono', 'Número no válido.' ).trim().isNumeric().isLength( { min: 10, max: 10 } ),
-    check( 'correo', 'El correo es obligatorio.' ).escape().trim().notEmpty(),
+    check( 'nombre', 'Ingrese un nombre válido.' ).escape().trim().matches( /^[A-Za-z\s\u00C0-\u017F]+$/ ),
+    check( 'apellidos', 'Ingrese apellidos válidos.' ).escape().trim().matches( /^[A-Za-z\s\u00C0-\u017F]+$/ ),
+    check( 'telefono', 'Ingrese un número telefónico válido.' ).trim().isNumeric().isLength( { min: 10, max: 10 } ),
     check( 'correo', 'Ingrese un correo válido.' ).escape().trim().isEmail(),
     check( 'correo' ).custom( dbValidators.existeEmail ),
-    check( 'password', 'El password es obligatorio.' ).escape().trim().notEmpty(),
     check( 'password', 'El password debe tener al menos 5 caracteres.' ).escape().trim().isLength( { min: 5 } ),
     validarCampos
 ], usuario.postUsuario );
