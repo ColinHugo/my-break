@@ -4,14 +4,12 @@ const dbConnection = async() => {
 
     try {
 
-        const db = await mongoose.connect( process.env.MONGODB_PRO, {
+        mongoose.connect( process.env.MONGODB_PRO, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         } );
 
-        const url = `${ db.connection.host }:${ db.connection.port }`;
-
-        console.log( 'Mongo DB conectado en:', url );
+        console.log( 'Base de datos online' );
     }
 
     catch ( error ) {
