@@ -17,8 +17,7 @@ router.post( '/', [
     validarJWT,
     check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty(),
     check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty(),
-    check( 'precio', 'El precio es obligatorio.' ).trim().escape().notEmpty(),
-    check( 'precio', 'El precio debe ser un número válido.' ).isNumeric(),
+    check( 'precio', 'Ingrese un precio válido.' ).trim().isNumeric().notEmpty(),
     validarCampos
 ], comidas.postComida );
 
