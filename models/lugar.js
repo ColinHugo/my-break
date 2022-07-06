@@ -23,6 +23,12 @@ const lugarSchema = Schema( {
         trim: true
     },
 
+    servicios: [ {
+        type: String,
+        trim: true,
+        required: [ true, 'Al menos un servicio es obligatorio.' ]
+    } ],
+
     foto: [ {
         type: String,
         trim: true,
