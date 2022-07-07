@@ -3,7 +3,7 @@ const path = require( 'path' );
 
 const { Lugar } = require( '../models' );
 
-const { generarUrlFotos, subirFoto } = require( '../helpers' );
+const { generarUrlFotos, subirFoto, putImagen } = require( '../helpers' );
 
 const getLugares = async ( req, res ) => {
 
@@ -69,13 +69,13 @@ const postLugar = async ( req, res ) => {
 const putLugar = async ( req, res ) => {
 
     const { idLugar } = req.params;
-    const { foto, ...datos } = req.body;
+    const { foto, usuario, ...datos } = req.body;
 
     try {
 
         let lugar = await Lugar.findById( idLugar );
 
-        if ( foto ) {
+        if ( foto ){
             if ( lugar.foto.length > 6 ){
                 const img = await putImagen( lugar, foto, 'lugares' );
                 lugar.foto.push( img );
@@ -143,9 +143,56 @@ const deleteLugar = async ( req, res ) => {
     }
 };
 
+const deleteFotoLugar = async ( req, res ) => {
+    
+    const { idLugar, nombreFoto } = req.params;
+
+    try {
+
+        const lugar = await Lugar.findById( idLugar );
+
+        if ( lugar.foto.includes( nombreFoto ) ) {
+
+            const pathImagen = path.join( __dirname, '../uploads/lugares', nombreFoto );
+
+            if ( fs.existsSync( pathImagen ) ) {
+                fs.unlinkSync( pathImagen );
+            }
+
+            await lugar.updateOne( {
+                $pull: {
+                    foto: nombreFoto
+                }
+            } );
+        }
+
+        else {
+            return res.status( 404 ).json( {
+                value: 0,
+                msg: 'No hay foto que borrar.'
+            } );
+        }
+
+        return res.status( 200 ).json( {
+            value: 1,
+            msg: 'La foto se ha eliminado correctamnete.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al eliminar la foto.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al eliminar la foto.'
+        } );
+    }
+};
+
 module.exports = {
     getLugares,
     postLugar,
     putLugar,
-    deleteLugar
+    deleteLugar,
+    deleteFotoLugar
 }
